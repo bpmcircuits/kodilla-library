@@ -1,6 +1,5 @@
 package com.kodilla.library.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +11,6 @@ import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity(name = "user")
 public class User {
 
@@ -28,4 +26,10 @@ public class User {
 
     @Column(name = "account_created")
     private LocalDate accountCreated;
+
+    public User(String name, String surname, LocalDate accountCreated) {
+        this.name = name;
+        this.surname = surname;
+        this.accountCreated = accountCreated;
+    }
 }

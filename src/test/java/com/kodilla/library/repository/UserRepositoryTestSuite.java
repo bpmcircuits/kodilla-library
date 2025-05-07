@@ -23,4 +23,18 @@ class UserRepositoryTestSuite {
         assertEquals("John", actual);
     }
 
+    @Test
+    void testCreateUserAndGetItById() {
+        //given
+        User user = new User("Test", "User", null);
+        //when
+        userRepository.save(user);
+        Long id = user.getId();
+        User actual = userRepository.findById(id).get();
+        //then
+        assertEquals("Test", actual.getName());
+        //cleanup
+        userRepository.deleteById(id);
+    }
+
 }
