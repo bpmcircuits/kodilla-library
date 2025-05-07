@@ -30,10 +30,10 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Rent> rents = new ArrayList<>();
 
-    public User(Long id, String name, String surname, LocalDate accountCreated) {
+    public User(Long id, String name, String surname) {
         this.id = id;
         this.name = name;
         this.surname = surname;
-        this.accountCreated = accountCreated;
+        this.accountCreated = LocalDate.now();
     }
 }

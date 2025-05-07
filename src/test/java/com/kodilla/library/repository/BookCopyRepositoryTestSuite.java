@@ -24,15 +24,15 @@ class BookCopyRepositoryTestSuite {
     @Test
     void testBookCopiesRepository() {
         //given
-        Book bookOne = new Book("TestOne", "TestAuthor", null);
-        Book bookTwo = new Book("TestTwo", "TestAuthor", null);
+        Book bookOne = new Book(100L, "TestOne", "TestAuthor", null);
+        Book bookTwo = new Book(101L,"TestTwo", "TestAuthor", null);
         bookRepository.save(bookOne);
         bookRepository.save(bookTwo);
 
-        BookCopy bookCopy1 = new BookCopy(bookOne, BookStatus.AVAILABLE);
-        BookCopy bookCopy2 = new BookCopy(bookOne, BookStatus.DAMAGED);
-        BookCopy bookCopy3 = new BookCopy(bookTwo, BookStatus.AVAILABLE);
-        BookCopy bookCopy4 = new BookCopy(bookTwo, BookStatus.LOST);
+        BookCopy bookCopy1 = new BookCopy(201L, bookOne, BookStatus.AVAILABLE);
+        BookCopy bookCopy2 = new BookCopy(202L, bookOne, BookStatus.DAMAGED);
+        BookCopy bookCopy3 = new BookCopy(203L, bookTwo, BookStatus.AVAILABLE);
+        BookCopy bookCopy4 = new BookCopy(204L, bookTwo, BookStatus.LOST);
         bookCopyRepository.save(bookCopy1);
         bookCopyRepository.save(bookCopy2);
         bookCopyRepository.save(bookCopy3);

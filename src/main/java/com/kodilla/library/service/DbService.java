@@ -27,6 +27,10 @@ public class DbService {
         return userRepository.findById(id).orElse(null);
     }
 
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
     public Book addBook(Book book) {
         return bookRepository.save(book);
     }
@@ -35,8 +39,8 @@ public class DbService {
         return bookCopyRepository.save(bookCopy);
     }
 
-    public BookCopy changeBookCopyStatus(BookCopy bookCopy, BookStatus newStatus) {
-        return bookCopyRepository.updateStatusById(bookCopy.getId(), newStatus);
+    public void changeBookCopyStatus(BookCopy bookCopy) {
+        bookCopyRepository.updateStatusById(bookCopy.getId(), bookCopy.getStatus());
     }
 
     public Rent rentBook(Rent rent) {
@@ -49,5 +53,9 @@ public class DbService {
 
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
+    }
+
+    public List<BookCopy> getAllBookCopies() {
+        return bookCopyRepository.findAll();
     }
 }

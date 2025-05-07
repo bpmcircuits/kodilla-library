@@ -2,23 +2,26 @@ package com.kodilla.library.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @NamedQuery(name = "BookCopy.updateStatusById",
-query = "UPDATE book_copy bc SET bc.status = :status WHERE bc.id = :id")
+query = "UPDATE BookCopy bc SET bc.status = :status WHERE bc.id = :id")
 
 @Getter
 @NoArgsConstructor
-@Entity(name = "book_copy")
+@Entity
+@Table(name = "book_copy")
 public class BookCopy {
 
     @Id
     @GeneratedValue
     private Long id;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private BookStatus status;
@@ -31,6 +34,7 @@ public class BookCopy {
     private List<Rent> rents = new ArrayList<>();
 
     public BookCopy(Long id, Book book, BookStatus status) {
+        this.id = id;
         this.book = book;
         this.status = status;
     }
