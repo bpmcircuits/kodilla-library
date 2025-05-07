@@ -32,7 +32,7 @@ public class LibraryMapper {
     }
 
     public BookDTO mapToBookDTO(Book book) {
-        String id = book.getId().toString();
+        Long id = book.getId();
         String title = book.getTitle();
         String author = book.getAuthor();
         String date = book.getPublicationDate().toString();
