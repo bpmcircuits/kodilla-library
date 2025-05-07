@@ -7,6 +7,9 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@NamedQuery(name = "BookCopy.updateStatusById",
+query = "UPDATE book_copy bc SET bc.status = :status WHERE bc.id = :id")
+
 @Getter
 @NoArgsConstructor
 @Entity(name = "book_copy")
@@ -31,5 +34,4 @@ public class BookCopy {
         this.book = book;
         this.status = status;
     }
-
 }

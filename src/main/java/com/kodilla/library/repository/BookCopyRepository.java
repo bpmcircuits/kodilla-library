@@ -2,10 +2,15 @@ package com.kodilla.library.repository;
 
 import com.kodilla.library.domain.BookCopy;
 import com.kodilla.library.domain.BookStatus;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
+@Repository
+@Transactional
 public interface BookCopyRepository extends CrudRepository<BookCopy, Long> {
 
     @Override
@@ -13,5 +18,6 @@ public interface BookCopyRepository extends CrudRepository<BookCopy, Long> {
 
     List<BookCopy> findAllByBookId(Long bookId);
 
-    BookCopy changeBookCopyStatus(Long bookCopyId, BookStatus newStatus);
+    @Query
+    BookCopy updateStatusById(Long id, BookStatus status);
 }

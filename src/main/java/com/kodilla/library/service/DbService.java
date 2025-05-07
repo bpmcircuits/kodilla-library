@@ -8,7 +8,7 @@ import com.kodilla.library.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +23,10 @@ public class DbService {
         return userRepository.save(user);
     }
 
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
     public Book addBook(Book book) {
         return bookRepository.save(book);
     }
@@ -32,7 +36,7 @@ public class DbService {
     }
 
     public BookCopy changeBookCopyStatus(BookCopy bookCopy, BookStatus newStatus) {
-        return bookCopyRepository.changeBookCopyStatus(bookCopy.getId(), newStatus);
+        return bookCopyRepository.updateStatusById(bookCopy.getId(), newStatus);
     }
 
     public Rent rentBook(Rent rent) {
@@ -43,4 +47,7 @@ public class DbService {
         return rentRepository.save(rent);
     }
 
+    public List<Book> getAllBooks() {
+        return bookRepository.findAll();
+    }
 }

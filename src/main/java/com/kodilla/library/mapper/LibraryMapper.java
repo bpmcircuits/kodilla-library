@@ -10,6 +10,7 @@ import com.kodilla.library.dto.UserDTO;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class LibraryMapper {
@@ -35,8 +36,13 @@ public class LibraryMapper {
         Long id = book.getId();
         String title = book.getTitle();
         String author = book.getAuthor();
-        String date = book.getPublicationDate().toString();
+        String date = book.getPublicationDate() == null ?
+                null : book.getPublicationDate().toString();
         return new BookDTO(id, title, author, date);
+    }
+
+    public List<BookDTO> mapToBookDTOList(final List<Book> books) {
+       return books.stream().map(this::mapToBookDTO).toList();
     }
 
     public Book mapToBook(BookDTO bookDTO) {
