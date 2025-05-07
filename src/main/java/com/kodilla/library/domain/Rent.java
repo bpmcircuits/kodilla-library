@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Getter
@@ -20,11 +17,13 @@ public class Rent {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "book_id")
-    private Long bookId;
+    @ManyToOne
+    @JoinColumn(name = "book_copy_id")
+    private BookCopy bookId;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User userId;
 
     @Column(name = "rent_date")
     private LocalDate rentDate;

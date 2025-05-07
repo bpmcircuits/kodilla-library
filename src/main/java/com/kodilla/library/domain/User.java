@@ -3,11 +3,10 @@ package com.kodilla.library.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -26,6 +25,9 @@ public class User {
 
     @Column(name = "account_created")
     private LocalDate accountCreated;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Rent> rents = new ArrayList<>();
 
     public User(String name, String surname, LocalDate accountCreated) {
         this.name = name;
