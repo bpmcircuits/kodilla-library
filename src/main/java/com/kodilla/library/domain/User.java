@@ -1,5 +1,6 @@
 package com.kodilla.library.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,7 +30,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Rent> rents = new ArrayList<>();
 
-    public User(String name, String surname, LocalDate accountCreated) {
+    public User(Long id, String name, String surname, LocalDate accountCreated) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.accountCreated = accountCreated;

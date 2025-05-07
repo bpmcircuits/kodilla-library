@@ -19,11 +19,11 @@ public class Rent {
 
     @ManyToOne
     @JoinColumn(name = "book_copy_id")
-    private BookCopy bookId;
+    private BookCopy bookCopy;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User userId;
+    private User user;
 
     @Column(name = "rent_date")
     private LocalDate rentDate;

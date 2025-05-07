@@ -1,4 +1,4 @@
 package com.kodilla.library.dto;
 
-public record UserDTO (String id, String name, String surname, String accountCreatedDate) {
+public record UserDTO (Long id, String name, String surname, String accountCreatedDate) {
 }

@@ -29,7 +29,8 @@ public class Book {
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BookCopy> copies = new ArrayList<>();
 
-    public Book(String title, String author, LocalDate publicationDate) {
+    public Book(Long id, String title, String author, LocalDate publicationDate) {
+        this.id = id;
         this.title = title;
         this.author = author;
         this.publicationDate = publicationDate;

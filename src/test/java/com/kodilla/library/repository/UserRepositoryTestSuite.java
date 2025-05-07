@@ -26,7 +26,7 @@ class UserRepositoryTestSuite {
     @Test
     void testCreateUserAndGetItById() {
         //given
-        User user = new User("Test", "User", null);
+        User user = new User(2L, "Test", "User", null);
         //when
         userRepository.save(user);
         Long id = user.getId();
