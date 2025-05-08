@@ -21,10 +21,9 @@ public class LibraryMapper {
     }
 
     public User mapToUser(UserDTO userDTO) {
-        Long id = userDTO.id();
         String name = userDTO.name();
         String surname = userDTO.surname();
-        return new User(id, name, surname);
+        return User.builder().name(name).surname(surname).build();
     }
 
     public List<UserDTO> mapToUserDTOList(final List<User> users) {
@@ -45,12 +44,11 @@ public class LibraryMapper {
     }
 
     public Book mapToBook(BookDTO bookDTO) {
-        Long id = bookDTO.id();
         String title = bookDTO.title();
         String author = bookDTO.author();
         LocalDate date = bookDTO.publicationDate() == null ?
                 null : LocalDate.parse(bookDTO.publicationDate());
-        return new Book(id, title, author, date);
+        return Book.builder().title(title).author(author).publicationDate(date).build();
     }
 
     public BookCopyDTO mapToBookCopyDTO(BookCopy bookCopy) {
@@ -68,6 +66,6 @@ public class LibraryMapper {
         Long id = bookCopyDTO.id();
         Book book = this.mapToBook(bookCopyDTO.bookDTO());
         BookStatus status = BookStatus.valueOf(bookCopyDTO.status());
-        return new BookCopy(id, book, status);
+        return new BookCopy(book, status);
     }
 }

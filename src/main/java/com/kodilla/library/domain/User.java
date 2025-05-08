@@ -1,5 +1,7 @@
 package com.kodilla.library.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,11 +12,13 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-@Entity(name = "user")
+@AllArgsConstructor
+@Builder
+@Entity(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name")
@@ -27,12 +31,6 @@ public class User {
     private LocalDate accountCreated;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<RentBook> rentBooks = new ArrayList<>();
+    private final List<RentBook> rentBooks = new ArrayList<>();
 
-    public User(Long id, String name, String surname) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.accountCreated = LocalDate.now();
-    }
 }

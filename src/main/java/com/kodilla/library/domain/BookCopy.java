@@ -38,8 +38,7 @@ public class BookCopy {
     @OneToMany(mappedBy = "bookCopy", cascade = CascadeType.ALL)
     private List<RentBook> rentBooks = new ArrayList<>();
 
-    public BookCopy(Long id, Book book, BookStatus status) {
-        this.id = id;
+    public BookCopy(Book book, BookStatus status) {
         this.book = book;
         this.status = status;
     }

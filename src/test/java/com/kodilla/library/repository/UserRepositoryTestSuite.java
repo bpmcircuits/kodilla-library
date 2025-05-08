@@ -14,27 +14,24 @@ class UserRepositoryTestSuite {
     private UserRepository userRepository;
 
     @Test
-    void testGetUserNameById() {
-        //given when
-        User user = userRepository.findById(1L).get();
-        String actual = user.getName();
-        System.out.println(actual);
-        //then
-        assertEquals("John", actual);
-    }
-
-    @Test
     void testCreateUserAndGetItById() {
         //given
-        User user = new User(2L, "Test", "User", null);
+        User user = User.builder().name("John").surname("Doe").build();
         //when
         userRepository.save(user);
         Long id = user.getId();
         User actual = userRepository.findById(id).get();
         //then
-        assertEquals("Test", actual.getName());
+        assertEquals("John", actual.getName());
         //cleanup
         userRepository.deleteById(id);
+    }
+
+    @Test
+    void getUserByName() {
+        User user = userRepository.findUserByNameIs("user");
+        assertNotNull(user);
+        assertEquals("user", user.getName());
     }
 
 }

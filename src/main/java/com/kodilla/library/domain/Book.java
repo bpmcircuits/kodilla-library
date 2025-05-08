@@ -1,5 +1,7 @@
 package com.kodilla.library.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +12,8 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity(name = "book")
 public class Book {
 
@@ -28,11 +32,4 @@ public class Book {
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BookCopy> copies = new ArrayList<>();
-
-    public Book(Long id, String title, String author, LocalDate publicationDate) {
-        this.id = id;
-        this.title = title;
-        this.author = author;
-        this.publicationDate = publicationDate;
-    }
 }
