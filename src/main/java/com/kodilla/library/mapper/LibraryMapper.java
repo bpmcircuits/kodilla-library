@@ -1,9 +1,6 @@
 package com.kodilla.library.mapper;
 
-import com.kodilla.library.domain.Book;
-import com.kodilla.library.domain.BookCopy;
-import com.kodilla.library.domain.BookStatus;
-import com.kodilla.library.domain.User;
+import com.kodilla.library.domain.*;
 import com.kodilla.library.dto.BookCopyDTO;
 import com.kodilla.library.dto.BookDTO;
 import com.kodilla.library.dto.UserDTO;
@@ -44,7 +41,7 @@ public class LibraryMapper {
     }
 
     public List<BookDTO> mapToBookDTOList(final List<Book> books) {
-       return books.stream().map(this::mapToBookDTO).toList();
+        return books.stream().map(this::mapToBookDTO).toList();
     }
 
     public Book mapToBook(BookDTO bookDTO) {
@@ -73,5 +70,4 @@ public class LibraryMapper {
         BookStatus status = BookStatus.valueOf(bookCopyDTO.status());
         return new BookCopy(id, book, status);
     }
-
 }

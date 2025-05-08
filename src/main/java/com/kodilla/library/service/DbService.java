@@ -1,6 +1,9 @@
 package com.kodilla.library.service;
 
 import com.kodilla.library.domain.*;
+import com.kodilla.library.exceptions.BookNotFoundException;
+import com.kodilla.library.exceptions.BookStatusException;
+import com.kodilla.library.exceptions.UserNotFoundException;
 import com.kodilla.library.repository.BookCopyRepository;
 import com.kodilla.library.repository.BookRepository;
 import com.kodilla.library.repository.RentRepository;
@@ -23,8 +26,8 @@ public class DbService {
         return userRepository.save(user);
     }
 
-    public User getUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
+    public User getUserById(Long id) throws UserNotFoundException {
+        return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
     public List<User> getAllUsers() {
@@ -35,6 +38,10 @@ public class DbService {
         return bookRepository.save(book);
     }
 
+    public Book getBookById(Long id) throws BookNotFoundException {
+        return bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
+    }
+
     public BookCopy addBookCopy(BookCopy bookCopy) {
         return bookCopyRepository.save(bookCopy);
     }
@@ -43,12 +50,26 @@ public class DbService {
         bookCopyRepository.updateStatusById(bookCopy.getId(), bookCopy.getStatus());
     }
 
-    public Rent rentBook(Rent rent) {
-        return rentRepository.save(rent);
+    public RentBook rentBook(RentBook rentBook) throws BookStatusException{
+        BookCopy bookCopy = rentBook.getBookCopy();
+
+        if (bookCopy.getStatus() == BookStatus.RENTED) {
+            throw new BookStatusException("Book is currently borrowed until %s".formatted(rentBook.getReturnDate()));
+        } else if (bookCopy.getStatus() == BookStatus.DAMAGED || bookCopy.getStatus() == BookStatus.LOST) {
+            throw new BookStatusException("Book is not available for renting.");
+        }
+        bookCopy.setStatus(BookStatus.RENTED);
+        return rentRepository.save(rentBook);
     }
 
-    public Rent returnBook(Rent rent) {
-        return rentRepository.save(rent);
+    public RentBook returnBook(RentBook rentBook) {
+        BookCopy bookCopy = rentBook.getBookCopy();
+        bookCopy.setStatus(BookStatus.AVAILABLE);
+        return rentRepository.save(rentBook);
+    }
+
+    public List<RentBook> getAllRents() {
+        return rentRepository.findAll();
     }
 
     public List<Book> getAllBooks() {
@@ -57,5 +78,9 @@ public class DbService {
 
     public List<BookCopy> getAllBookCopies() {
         return bookCopyRepository.findAll();
+    }
+
+    public Long getAmountOfCopiesById(Long id) {
+        return bookCopyRepository.getAmountOfCopiesById(id);
     }
 }

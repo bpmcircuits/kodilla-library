@@ -8,8 +8,13 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@NamedQuery(name = "BookCopy.updateStatusById",
-query = "UPDATE BookCopy bc SET bc.status = :status WHERE bc.id = :id")
+@NamedQueries({
+        @NamedQuery(name = "BookCopy.updateStatusById",
+                query = "UPDATE BookCopy bc SET bc.status = :status WHERE bc.id = :id"),
+        @NamedQuery(name = "BookCopy.getAmountOfCopiesById",
+                query = "SELECT COUNT(*) FROM BookCopy bc WHERE bc.book.id = :id AND bc.status = 'AVAILABLE'")
+})
+
 
 @Getter
 @NoArgsConstructor
@@ -31,7 +36,7 @@ public class BookCopy {
     private Book book;
 
     @OneToMany(mappedBy = "bookCopy", cascade = CascadeType.ALL)
-    private List<Rent> rents = new ArrayList<>();
+    private List<RentBook> rentBooks = new ArrayList<>();
 
     public BookCopy(Long id, Book book, BookStatus status) {
         this.id = id;

@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "rent")
-public class Rent {
+public class RentBook {
 
     @Id
     @GeneratedValue

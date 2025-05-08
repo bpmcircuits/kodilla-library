@@ -19,7 +19,7 @@ class BookRepositoryTestSuite {
     @Test
     void testCreateBookAndGetIt() {
         //given
-        Book book = new Book("Test book", "Test author", LocalDate.now());
+        Book book = new Book(301L, "Test book", "Test author", LocalDate.now());
 
         //when
         bookRepository.save(book);

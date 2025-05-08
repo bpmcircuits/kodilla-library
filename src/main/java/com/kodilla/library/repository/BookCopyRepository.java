@@ -27,4 +27,7 @@ public interface BookCopyRepository extends CrudRepository<BookCopy, Long> {
     @Modifying
     @Query
     void updateStatusById(@Param("id")Long id, @Param("status")BookStatus status);
+
+    @Query
+    long getAmountOfCopiesById(@Param("id")Long id);
 }
