@@ -52,8 +52,8 @@ public class DbService {
         return bookCopyRepository.save(bookCopy);
     }
 
-    public void changeBookCopyStatus(BookCopy bookCopy) {
-        bookCopyRepository.updateStatusById(bookCopy.getId(), bookCopy.getStatus());
+    public BookCopy changeBookCopyStatus(BookCopy bookCopy) {
+        return bookCopyRepository.updateStatusById(bookCopy.getId(), bookCopy.getStatus());
     }
 
     public RentBook rentBook(RentBook rentBook) throws BookStatusException, UserNotFoundException {

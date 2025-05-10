@@ -1,6 +1,5 @@
 package com.kodilla.library.repository;
 
-import com.kodilla.library.domain.Book;
 import com.kodilla.library.domain.BookCopy;
 import com.kodilla.library.domain.BookStatus;
 import org.springframework.data.jpa.repository.Modifying;
@@ -26,7 +25,7 @@ public interface BookCopyRepository extends CrudRepository<BookCopy, Long> {
 
     @Modifying
     @Query
-    void updateStatusById(@Param("id")Long id, @Param("status")BookStatus status);
+    BookCopy updateStatusById(@Param("id")Long id, @Param("status")BookStatus status);
 
     @Query
     long getAmountOfCopiesById(@Param("id")Long id);

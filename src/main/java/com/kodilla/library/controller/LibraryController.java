@@ -30,10 +30,9 @@ public class LibraryController {
     private final RentMapper rentMapper;
 
     @PostMapping("/user/add")
-    public ResponseEntity<Void> addUser(@RequestBody UserDTO dto) {
+    public ResponseEntity<UserDTO> addUser(@RequestBody UserDTO dto) {
         User user = mapper.mapToUser(dto);
-        service.addUser(user);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(mapper.mapToUserDTO(service.addUser(user)));
     }
 
     @GetMapping("/user/{id}")
@@ -56,10 +55,9 @@ public class LibraryController {
     }
 
     @PostMapping("/book/add")
-    public ResponseEntity<Void> addBook(@RequestBody BookDTO dto) {
+    public ResponseEntity<BookDTO> addBook(@RequestBody BookDTO dto) {
         Book book = mapper.mapToBook(dto);
-        service.addBook(book);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(mapper.mapToBookDTO(service.addBook(book)));
     }
 
     @GetMapping("/book/{id}")
@@ -76,13 +74,12 @@ public class LibraryController {
     }
 
     @PostMapping("/book/copy/add")
-    public ResponseEntity<Void> addBookCopy(@RequestBody BookCopyDTO dto)
+    public ResponseEntity<BookCopyDTO> addBookCopy(@RequestBody BookCopyDTO dto)
             throws BookNotFoundException {
 
         Book book = service.getBookById(dto.book_id());
         BookCopy bookCopy = mapper.mapToBookCopy(dto, book);
-        service.addBookCopy(bookCopy);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(mapper.mapToBookCopyDTO(service.addBookCopy(bookCopy)));
     }
 
     @PutMapping("/book/copy/status")
@@ -91,8 +88,7 @@ public class LibraryController {
 
         Book book = service.getBookById(dto.book_id());
         BookCopy bookCopy = mapper.mapToBookCopy(dto, book);
-        service.changeBookCopyStatus(bookCopy);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(mapper.mapToBookCopyDTO(service.changeBookCopyStatus(bookCopy)));
     }
 
     @GetMapping("/book/copy/amount/{id}")
