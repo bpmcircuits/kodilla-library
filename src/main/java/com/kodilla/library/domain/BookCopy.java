@@ -13,7 +13,6 @@ import java.util.List;
                 query = "SELECT COUNT(*) FROM BookCopy bc WHERE bc.book.id = :id AND bc.status = 'AVAILABLE'")
 })
 
-
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -36,5 +35,5 @@ public class BookCopy {
     private BookStatus status;
 
     @OneToMany(mappedBy = "bookCopy", cascade = CascadeType.ALL)
-    private List<RentBook> rentBooks = new ArrayList<>();
+    private final List<RentBook> rentBooks = new ArrayList<>();
 }

@@ -28,3 +28,6 @@ CREATE TABLE `rent` (
     CONSTRAINT `fk_book_copy_id` FOREIGN KEY (`book_copy_id`) REFERENCES `book_copy`(`id`),
     CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
 );
+
+CREATE TABLE hibernate_sequence (next_val BIGINT);
+INSERT INTO hibernate_sequence VALUES (1);

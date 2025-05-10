@@ -31,5 +31,5 @@ public class Book {
     private LocalDate publicationDate;
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BookCopy> copies = new ArrayList<>();
+    private final List<BookCopy> copies = new ArrayList<>();
 }

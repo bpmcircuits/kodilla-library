@@ -1,6 +1,7 @@
 package com.kodilla.library.service;
 
 import com.kodilla.library.domain.*;
+import com.kodilla.library.exceptions.BookCopyNotFoundException;
 import com.kodilla.library.exceptions.BookNotFoundException;
 import com.kodilla.library.exceptions.BookStatusException;
 import com.kodilla.library.exceptions.UserNotFoundException;
@@ -52,7 +53,7 @@ public class DbService {
         return bookCopyRepository.save(bookCopy);
     }
 
-    public BookCopy changeBookCopyStatus(BookCopy bookCopy) {
+    public Integer changeBookCopyStatus(BookCopy bookCopy) {
         return bookCopyRepository.updateStatusById(bookCopy.getId(), bookCopy.getStatus());
     }
 
@@ -65,6 +66,7 @@ public class DbService {
             throw new BookStatusException("Book is not available for renting.");
         }
         bookCopy.setStatus(BookStatus.RENTED);
+        bookCopyRepository.save(bookCopy);
         return rentRepository.save(rentBook);
     }
 
@@ -72,6 +74,7 @@ public class DbService {
         userRepository.findById(rentBook.getUser().getId()).orElseThrow(UserNotFoundException::new);
         BookCopy bookCopy = rentBook.getBookCopy();
         bookCopy.setStatus(BookStatus.AVAILABLE);
+        bookCopyRepository.save(bookCopy);
         return rentRepository.save(rentBook);
     }
 
@@ -85,6 +88,10 @@ public class DbService {
 
     public List<BookCopy> getAllBookCopies() {
         return bookCopyRepository.findAll();
+    }
+
+    public BookCopy getBookCopyById(Long id) throws BookCopyNotFoundException {
+        return bookCopyRepository.findById(id).orElseThrow(BookCopyNotFoundException::new);
     }
 
     public Long getAmountOfCopiesById(Long id) {
