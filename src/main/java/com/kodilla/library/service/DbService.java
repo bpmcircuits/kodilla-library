@@ -11,6 +11,7 @@ import com.kodilla.library.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -23,7 +24,12 @@ public class DbService {
     private final BookCopyRepository bookCopyRepository;
 
     public User addUser(User user) {
-        return userRepository.save(user);
+        User newUser = User.builder()
+                .name(user.getName())
+                .surname(user.getSurname())
+                .accountCreated(LocalDate.now())
+                .build();
+        return userRepository.save(newUser);
     }
 
     public User getUserById(Long id) throws UserNotFoundException {
@@ -50,9 +56,9 @@ public class DbService {
         bookCopyRepository.updateStatusById(bookCopy.getId(), bookCopy.getStatus());
     }
 
-    public RentBook rentBook(RentBook rentBook) throws BookStatusException{
+    public RentBook rentBook(RentBook rentBook) throws BookStatusException, UserNotFoundException {
+        userRepository.findById(rentBook.getUser().getId()).orElseThrow(UserNotFoundException::new);
         BookCopy bookCopy = rentBook.getBookCopy();
-
         if (bookCopy.getStatus() == BookStatus.RENTED) {
             throw new BookStatusException("Book is currently borrowed until %s".formatted(rentBook.getReturnDate()));
         } else if (bookCopy.getStatus() == BookStatus.DAMAGED || bookCopy.getStatus() == BookStatus.LOST) {
@@ -62,7 +68,8 @@ public class DbService {
         return rentRepository.save(rentBook);
     }
 
-    public RentBook returnBook(RentBook rentBook) {
+    public RentBook returnBook(RentBook rentBook) throws UserNotFoundException {
+        userRepository.findById(rentBook.getUser().getId()).orElseThrow(UserNotFoundException::new);
         BookCopy bookCopy = rentBook.getBookCopy();
         bookCopy.setStatus(BookStatus.AVAILABLE);
         return rentRepository.save(rentBook);

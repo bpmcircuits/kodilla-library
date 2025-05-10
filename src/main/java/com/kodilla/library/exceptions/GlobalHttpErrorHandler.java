@@ -23,4 +23,9 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleBookStatusException(BookStatusException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(BookCopyNotFoundException.class)
+    public ResponseEntity<Object> handleBookCopyNotFoundException(BookCopyNotFoundException ex) {
+        return new ResponseEntity<>("Book copy with given id doesn't exist", HttpStatus.BAD_REQUEST);
+    }
 }

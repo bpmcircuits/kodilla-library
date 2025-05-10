@@ -1,8 +1,6 @@
 package com.kodilla.library.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -18,6 +16,8 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "book_copy")
 public class BookCopy {
@@ -26,20 +26,15 @@ public class BookCopy {
     @GeneratedValue
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "book_id", nullable = false)
+    private Book book;
+
     @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private BookStatus status;
 
-    @ManyToOne
-    @JoinColumn(name = "book_id", nullable = false)
-    private Book book;
-
     @OneToMany(mappedBy = "bookCopy", cascade = CascadeType.ALL)
     private List<RentBook> rentBooks = new ArrayList<>();
-
-    public BookCopy(Book book, BookStatus status) {
-        this.book = book;
-        this.status = status;
-    }
 }

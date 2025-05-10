@@ -4,6 +4,8 @@ import com.kodilla.library.domain.BookCopy;
 import com.kodilla.library.domain.RentBook;
 import com.kodilla.library.domain.User;
 import com.kodilla.library.dto.RentBookDTO;
+import com.kodilla.library.exceptions.BookCopyNotFoundException;
+import com.kodilla.library.exceptions.UserNotFoundException;
 import com.kodilla.library.repository.BookCopyRepository;
 import com.kodilla.library.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,14 +32,14 @@ public class RentMapper {
         return new RentBookDTO(id, bookCopyId, userId, rentDate, returnDate);
     }
 
-    public RentBook mapToRent(RentBookDTO rentBookDTO) {
+    public RentBook mapToRent(RentBookDTO rentBookDTO) throws UserNotFoundException, BookCopyNotFoundException {
         Long id = rentBookDTO.id();
 
         BookCopy bookCopy = bookCopyRepository.findById(rentBookDTO.bookCopyId())
-                .orElseThrow(() -> new IllegalArgumentException("BookCopy not found with ID: " + rentBookDTO.bookCopyId()));
+                .orElseThrow(BookCopyNotFoundException::new);
 
         User user = userRepository.findById(rentBookDTO.userId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + rentBookDTO.userId()));
+                .orElseThrow(UserNotFoundException::new);
 
         LocalDate rentDate = rentBookDTO.rentDate() == null
                 ? null : LocalDate.parse(rentBookDTO.rentDate());

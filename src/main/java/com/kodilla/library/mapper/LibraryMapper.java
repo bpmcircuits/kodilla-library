@@ -53,19 +53,17 @@ public class LibraryMapper {
 
     public BookCopyDTO mapToBookCopyDTO(BookCopy bookCopy) {
         Long id = bookCopy.getId();
-        BookDTO bookDTO = this.mapToBookDTO(bookCopy.getBook());
+        Long book_id = this.mapToBookDTO(bookCopy.getBook()).id();
         String status = bookCopy.getStatus().toString();
-        return new BookCopyDTO(id, bookDTO, status);
+        return new BookCopyDTO(id, book_id, status);
     }
 
     public List<BookCopyDTO> mapToBookCopyDTOList(final List<BookCopy> bookCopies) {
         return bookCopies.stream().map(this::mapToBookCopyDTO).toList();
     }
 
-    public BookCopy mapToBookCopy(BookCopyDTO bookCopyDTO) {
-        Long id = bookCopyDTO.id();
-        Book book = this.mapToBook(bookCopyDTO.bookDTO());
-        BookStatus status = BookStatus.valueOf(bookCopyDTO.status());
-        return new BookCopy(book, status);
+    public BookCopy mapToBookCopy(BookCopyDTO dto, Book book) {
+        BookStatus status = BookStatus.valueOf(dto.status());
+        return BookCopy.builder().book(book).status(status).build();
     }
 }
