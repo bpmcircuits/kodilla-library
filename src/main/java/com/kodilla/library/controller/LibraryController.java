@@ -11,8 +11,9 @@ import com.kodilla.library.dto.UserDTO;
 import com.kodilla.library.exceptions.BookNotFoundException;
 import com.kodilla.library.exceptions.BookStatusException;
 import com.kodilla.library.exceptions.UserNotFoundException;
-import com.kodilla.library.mapper.LibraryMapper;
+import com.kodilla.library.mapper.BookMapper;
 import com.kodilla.library.mapper.RentMapper;
+import com.kodilla.library.mapper.UserMapper;
 import com.kodilla.library.service.DbService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,51 +27,52 @@ import java.util.List;
 public class LibraryController {
 
     private final DbService service;
-    private final LibraryMapper mapper;
+    private final UserMapper userMapper;
+    private final BookMapper bookMapper;
     private final RentMapper rentMapper;
 
     @PostMapping("/user/add")
     public ResponseEntity<UserDTO> addUser(@RequestBody UserDTO dto) {
-        User user = mapper.mapToUser(dto);
-        return ResponseEntity.ok(mapper.mapToUserDTO(service.addUser(user)));
+        User user = userMapper.mapToUser(dto);
+        return ResponseEntity.ok(userMapper.mapToUserDTO(service.addUser(user)));
     }
 
     @GetMapping("/user/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable Long id)
             throws UserNotFoundException {
 
-        return ResponseEntity.ok(mapper.mapToUserDTO(service.getUserById(id)));
+        return ResponseEntity.ok(userMapper.mapToUserDTO(service.getUserById(id)));
     }
 
     @GetMapping("/user/all")
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         List<User> users = service.getAllUsers();
-        return ResponseEntity.ok(mapper.mapToUserDTOList(users));
+        return ResponseEntity.ok(userMapper.mapToUserDTOList(users));
     }
 
     @GetMapping
     public ResponseEntity<List<BookDTO>> getBooks() {
         List<Book> books = service.getAllBooks();
-        return ResponseEntity.ok(mapper.mapToBookDTOList(books));
+        return ResponseEntity.ok(bookMapper.mapToBookDTOList(books));
     }
 
     @PostMapping("/book/add")
     public ResponseEntity<BookDTO> addBook(@RequestBody BookDTO dto) {
-        Book book = mapper.mapToBook(dto);
-        return ResponseEntity.ok(mapper.mapToBookDTO(service.addBook(book)));
+        Book book = bookMapper.mapToBook(dto);
+        return ResponseEntity.ok(bookMapper.mapToBookDTO(service.addBook(book)));
     }
 
     @GetMapping("/book/{id}")
     public ResponseEntity<BookDTO> getBook(@PathVariable Long id)
             throws BookNotFoundException {
 
-        return ResponseEntity.ok(mapper.mapToBookDTO(service.getBookById(id)));
+        return ResponseEntity.ok(bookMapper.mapToBookDTO(service.getBookById(id)));
     }
 
     @GetMapping("/book/copy/all")
     public ResponseEntity<List<BookCopyDTO>> getAllBookCopies() {
         List<BookCopy> bookCopies = service.getAllBookCopies();
-        return ResponseEntity.ok(mapper.mapToBookCopyDTOList(bookCopies));
+        return ResponseEntity.ok(bookMapper.mapToBookCopyDTOList(bookCopies));
     }
 
     @PostMapping("/book/copy/add")
@@ -78,8 +80,8 @@ public class LibraryController {
             throws BookNotFoundException {
 
         Book book = service.getBookById(dto.book_id());
-        BookCopy bookCopy = mapper.mapToBookCopy(dto, book);
-        return ResponseEntity.ok(mapper.mapToBookCopyDTO(service.addBookCopy(bookCopy)));
+        BookCopy bookCopy = bookMapper.mapToBookCopy(dto, book);
+        return ResponseEntity.ok(bookMapper.mapToBookCopyDTO(service.addBookCopy(bookCopy)));
     }
 
     @PutMapping("/book/copy/status")
@@ -87,8 +89,8 @@ public class LibraryController {
             throws BookNotFoundException {
 
         Book book = service.getBookById(dto.book_id());
-        BookCopy bookCopy = mapper.mapToBookCopy(dto, book);
-        return ResponseEntity.ok(mapper.mapToBookCopyDTO(service.changeBookCopyStatus(bookCopy)));
+        BookCopy bookCopy = bookMapper.mapToBookCopy(dto, book);
+        return ResponseEntity.ok(bookMapper.mapToBookCopyDTO(service.changeBookCopyStatus(bookCopy)));
     }
 
     @GetMapping("/book/copy/amount/{id}")
